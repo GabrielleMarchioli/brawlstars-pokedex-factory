@@ -84,7 +84,7 @@
 }
 
 @layer utilities {
-  .perspective-[1000px] {
+  .perspective-1000 {
     perspective: 1000px;
   }
   
@@ -151,7 +151,7 @@
   }
 
   .memory-card {
-    @apply relative w-full h-full cursor-pointer transition-transform duration-300 transform-gpu perspective-[1000px];
+    @apply relative w-full h-full cursor-pointer transition-transform duration-300 transform-gpu perspective-1000;
   }
 
   .memory-card.flipped .memory-card-inner {
