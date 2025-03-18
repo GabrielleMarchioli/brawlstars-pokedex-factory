@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import brawlers from "../utils/brawlersData";
@@ -55,7 +54,6 @@ const MemoryGame = () => {
       const secondCard = cards.find((card) => card.id === flippedCards[1]);
       
       if (firstCard && secondCard && firstCard.brawlerId === secondCard.brawlerId) {
-        // Match found
         setCards((prevCards) =>
           prevCards.map((card) =>
             card.id === firstCard.id || card.id === secondCard.id
@@ -63,18 +61,15 @@ const MemoryGame = () => {
               : card
           )
         );
-        
         setMatchedPairs((prevPairs) => prevPairs + 1);
         setFlippedCards([]);
       } else {
-        // No match, flip cards back after delay
         setTimeout(() => {
           setCards((prevCards) =>
             prevCards.map((card) =>
               flippedCards.includes(card.id) ? { ...card, isFlipped: false } : card
             )
           );
-          
           setFlippedCards([]);
         }, 1000);
       }
@@ -91,11 +86,9 @@ const MemoryGame = () => {
     setGameCompleted(false);
     setTimer(0);
     
-    // Select random brawlers for the memory game
     const shuffledBrawlers = [...brawlers].sort(() => 0.5 - Math.random());
     const selectedBrawlers = shuffledBrawlers.slice(0, totalPairs);
     
-    // Create pairs of cards
     const cardPairs = selectedBrawlers.flatMap((brawler) => [
       {
         id: brawler.id * 2 - 1,
@@ -115,18 +108,15 @@ const MemoryGame = () => {
       },
     ]);
     
-    // Shuffle the cards
     const shuffledCards = cardPairs.sort(() => 0.5 - Math.random());
     setCards(shuffledCards);
   };
   
   const handleCardClick = (id: number) => {
-    // Start game on first click
     if (!gameStarted) {
       setGameStarted(true);
     }
     
-    // Ignore click if game is completed or card is already flipped/matched or we already have 2 flipped cards
     const card = cards.find((c) => c.id === id);
     if (
       gameCompleted ||
@@ -138,14 +128,12 @@ const MemoryGame = () => {
       return;
     }
     
-    // Flip the card
     setCards((prevCards) =>
       prevCards.map((card) =>
         card.id === id ? { ...card, isFlipped: true } : card
       )
     );
     
-    // Add to flipped cards
     setFlippedCards((prevFlipped) => [...prevFlipped, id]);
   };
   
@@ -238,7 +226,7 @@ const MemoryGame = () => {
               <div
                 key={card.id}
                 className={`aspect-square memory-card ${
-                  card.isFlipped || card.isMatched ? "flipped" : ""
+                  card.isFlipped || card.isMatched ? "" : "flipped" // Invertendo a lógica
                 }`}
                 onClick={() => handleCardClick(card.id)}
               >

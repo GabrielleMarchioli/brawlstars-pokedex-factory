@@ -6,6 +6,7 @@ import brawlers from "../utils/brawlersData";
 import { Link } from "react-router-dom";
 import { ScanLine, Brain, Gamepad } from "lucide-react";
 
+ 
 const Index = () => {
   const [isLoaded, setIsLoaded] = useState(false);
 

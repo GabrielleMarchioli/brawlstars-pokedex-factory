@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Heart, Zap, Star } from "lucide-react";
@@ -49,6 +48,8 @@ const BrawlerCard = ({
   const [imageError, setImageError] = useState(false);
 
   const rarityColorClass = getRarityColor(rarity);
+  const maxHealth = 10000; // Ajuste conforme necessário
+  const maxAttack = 3000;  // Ajuste conforme necessário
 
   const handleImageError = () => {
     setImageError(true);
@@ -64,7 +65,10 @@ const BrawlerCard = ({
         <div className="aspect-square relative overflow-hidden">
           {!imageLoaded && (
             <div className="absolute inset-0 flex items-center justify-center bg-gray-100 animate-pulse">
-              <div className="w-10 h-10 rounded-full bg-gray-200"></div>
+              <svg className="w-10 h-10 text-gray-200 animate-spin" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8h8a8 8 0 01-16 0z" />
+              </svg>
             </div>
           )}
           <img
@@ -102,7 +106,10 @@ const BrawlerCard = ({
       <div className="aspect-square relative overflow-hidden">
         {!imageLoaded && (
           <div className="absolute inset-0 flex items-center justify-center bg-gray-100 animate-pulse">
-            <div className="w-12 h-12 rounded-full bg-gray-200"></div>
+            <svg className="w-12 h-12 text-gray-200 animate-spin" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8h8a8 8 0 01-16 0z" />
+            </svg>
           </div>
         )}
         <img
@@ -127,32 +134,29 @@ const BrawlerCard = ({
       </div>
       <div className="p-5">
         <h3 className="font-medium text-xl mb-3">{name}</h3>
-        
         <div className="space-y-2">
           <div className="flex items-center text-sm">
             <Star className="w-4 h-4 mr-2 text-yellow-500" />
             <span className="text-brawl-text-secondary mr-2">Power:</span>
             <span className="font-medium">{power}/11</span>
           </div>
-          
           <div className="flex items-center text-sm">
             <Heart className="w-4 h-4 mr-2 text-red-500" />
             <span className="text-brawl-text-secondary mr-2">Health:</span>
             <div className="w-full max-w-[100px] stats-bar">
               <div
                 className="stats-bar-fill bg-red-500"
-                style={{ width: `${(health / 10000) * 100}%` }}
+                style={{ width: `${(health / maxHealth) * 100}%` }}
               ></div>
             </div>
           </div>
-          
           <div className="flex items-center text-sm">
             <Zap className="w-4 h-4 mr-2 text-amber-500" />
             <span className="text-brawl-text-secondary mr-2">Attack:</span>
             <div className="w-full max-w-[100px] stats-bar">
               <div
                 className="stats-bar-fill bg-amber-500"
-                style={{ width: `${(attack / 3000) * 100}%` }}
+                style={{ width: `${(attack / maxAttack) * 100}%` }}
               ></div>
             </div>
           </div>
