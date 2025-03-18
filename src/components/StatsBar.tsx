@@ -8,6 +8,7 @@ interface StatsBarProps {
   color: string;
   icon?: React.ReactNode;
   delay?: number;
+  showValueText?: boolean;
 }
 
 const StatsBar = ({ 
@@ -16,7 +17,8 @@ const StatsBar = ({
   maxValue, 
   color, 
   icon, 
-  delay = 0 
+  delay = 0,
+  showValueText = true
 }: StatsBarProps) => {
   const [width, setWidth] = useState(0);
   
@@ -32,10 +34,12 @@ const StatsBar = ({
     <div className="mb-4">
       <div className="flex justify-between items-center mb-2">
         <div className="flex items-center gap-2">
-          {icon && <span>{icon}</span>}
+          {icon && <span className="text-gray-500">{icon}</span>}
           <span className="text-sm font-medium text-brawl-text-secondary">{label}</span>
         </div>
-        <span className="text-sm font-medium">{value.toLocaleString()}</span>
+        {showValueText && (
+          <span className="text-sm font-medium">{value.toLocaleString()}</span>
+        )}
       </div>
       <div className="stats-bar">
         <div 

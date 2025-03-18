@@ -5,16 +5,18 @@ interface LoadingSpinnerProps {
   size?: number;
   color?: string;
   style?: CSSProperties;
+  message?: string;
 }
 
 const LoadingSpinner = ({ 
   size = 40, 
   color = "#8B5CF6", 
-  style 
+  style,
+  message
 }: LoadingSpinnerProps) => {
   return (
     <div 
-      className="flex items-center justify-center"
+      className="flex flex-col items-center justify-center"
       style={style}
     >
       <svg
@@ -40,6 +42,9 @@ const LoadingSpinner = ({
           </g>
         </g>
       </svg>
+      {message && (
+        <p className="mt-4 text-sm text-brawl-text-secondary">{message}</p>
+      )}
     </div>
   );
 };

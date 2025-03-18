@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import BrawlerCard from "./BrawlerCard";
 import { Link } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
@@ -11,38 +11,40 @@ interface FeaturedBrawlersProps {
 
 const FeaturedBrawlers = ({ brawlers }: FeaturedBrawlersProps) => {
   const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
   
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY + window.innerHeight;
-      const element = document.getElementById("featured-brawlers");
-      
-      if (element) {
-        const elementPosition = element.offsetTop;
-        
-        if (scrollPosition > elementPosition + 100) {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
           setIsVisible(true);
+          observer.disconnect();
         }
-      }
+      },
+      { threshold: 0.1 }
+    );
+    
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+    
+    return () => {
+      observer.disconnect();
     };
-    
-    window.addEventListener("scroll", handleScroll);
-    handleScroll(); // Check on initial load
-    
-    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
   
   const featuredBrawlers = brawlers.slice(0, 4);
   
   return (
     <section 
+      ref={sectionRef}
       id="featured-brawlers" 
       className="py-16 px-6"
     >
       <div className="max-w-7xl mx-auto">
-        <div className="flex justify-between items-end mb-10">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4 mb-10">
           <div>
-            <div className="inline-block px-3 py-1 rounded-full bg-blue-100 text-brawl-blue text-sm font-medium mb-3">
+            <div className={`inline-block px-3 py-1 rounded-full bg-blue-100 text-brawl-blue text-sm font-medium mb-3 transition-all duration-700 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
               Featured Brawlers
             </div>
             <h2 className={`text-3xl md:text-4xl font-bold transition-all duration-700 ${isVisible ? 'opacity-100' : 'opacity-0 translate-y-8'}`}>
@@ -52,7 +54,7 @@ const FeaturedBrawlers = ({ brawlers }: FeaturedBrawlersProps) => {
           
           <Link 
             to="/brawlers" 
-            className="flex items-center text-brawl-purple hover:opacity-90 transition-colors group"
+            className={`flex items-center text-brawl-purple hover:opacity-90 transition-all duration-700 group ${isVisible ? 'opacity-100' : 'opacity-0'}`}
           >
             <span className="mr-1">View All</span>
             <ChevronRight size={18} className="transition-transform group-hover:translate-x-1" />

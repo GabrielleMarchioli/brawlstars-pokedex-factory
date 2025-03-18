@@ -46,14 +46,20 @@ const BrawlerCard = ({
   isCompact = false,
 }: BrawlerCardProps) => {
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   const rarityColorClass = getRarityColor(rarity);
+
+  const handleImageError = () => {
+    setImageError(true);
+    setImageLoaded(true);
+  };
 
   if (isCompact) {
     return (
       <Link
         to={`/brawlers/${id}`}
-        className="block w-full card-glass rounded-xl overflow-hidden transition-all duration-300 hover:translate-y-[-5px]"
+        className="block w-full card-glass rounded-xl overflow-hidden transition-all duration-300 hover:translate-y-[-5px] hover:shadow-lg"
       >
         <div className="aspect-square relative overflow-hidden">
           {!imageLoaded && (
@@ -68,7 +74,13 @@ const BrawlerCard = ({
               imageLoaded ? "opacity-100" : "opacity-0"
             }`}
             onLoad={() => setImageLoaded(true)}
+            onError={handleImageError}
           />
+          {imageError && (
+            <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
+              <span className="text-sm text-gray-500">Image not available</span>
+            </div>
+          )}
           <div
             className={`absolute top-3 right-3 ${rarityColorClass} text-white text-xs px-2 py-1 rounded-full`}
           >
@@ -85,7 +97,7 @@ const BrawlerCard = ({
   return (
     <Link
       to={`/brawlers/${id}`}
-      className="block w-full card-glass rounded-xl overflow-hidden transition-all duration-300 hover:translate-y-[-5px]"
+      className="block w-full card-glass rounded-xl overflow-hidden transition-all duration-300 hover:translate-y-[-5px] hover:shadow-lg"
     >
       <div className="aspect-square relative overflow-hidden">
         {!imageLoaded && (
@@ -100,7 +112,13 @@ const BrawlerCard = ({
             imageLoaded ? "opacity-100" : "opacity-0"
           }`}
           onLoad={() => setImageLoaded(true)}
+          onError={handleImageError}
         />
+        {imageError && (
+          <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
+            <span className="text-gray-500">Image not available</span>
+          </div>
+        )}
         <div
           className={`absolute top-4 right-4 ${rarityColorClass} text-white text-xs px-2 py-1 rounded-full`}
         >
